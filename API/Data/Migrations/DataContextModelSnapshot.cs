@@ -186,90 +186,6 @@ namespace API.Data.Migrations
                     b.ToTable("Groups");
                 });
 
-            modelBuilder.Entity("API.Entities.Message", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
-
-                    b.Property<string>("Content")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("DateRead")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime>("MessageSent")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<bool>("RecipientDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("RecipientId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("RecipientUsername")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("SenderDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("SenderId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("SenderUsername")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecipientId");
-
-                    b.HasIndex("SenderId");
-
-                    b.ToTable("Messages");
-                });
-
-            modelBuilder.Entity("API.Entities.Photo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
-
-                    b.Property<int>("AppUserId")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("IsMain")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("PublicId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.ToTable("Photos");
-                });
-
-            modelBuilder.Entity("API.Entities.UserLike", b =>
-                {
-                    b.Property<int>("SourceUserId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("LikedUserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("SourceUserId", "LikedUserId");
-
-                    b.HasIndex("LikedUserId");
-
-                    b.ToTable("Likes");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
@@ -377,45 +293,6 @@ namespace API.Data.Migrations
                         .WithMany("Connections")
                         .HasForeignKey("GroupName")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("API.Entities.Message", b =>
-                {
-                    b.HasOne("API.Entities.AppUser", "Recipient")
-                        .WithMany("MessagesReceived")
-                        .HasForeignKey("RecipientId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("API.Entities.AppUser", "Sender")
-                        .WithMany("MessagesSent")
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("API.Entities.Photo", b =>
-                {
-                    b.HasOne("API.Entities.AppUser", "AppUser")
-                        .WithMany("Photos")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("API.Entities.UserLike", b =>
-                {
-                    b.HasOne("API.Entities.AppUser", "LikedUser")
-                        .WithMany("LikedByUsers")
-                        .HasForeignKey("LikedUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.Entities.AppUser", "SourceUser")
-                        .WithMany("LikedUsers")
-                        .HasForeignKey("SourceUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
