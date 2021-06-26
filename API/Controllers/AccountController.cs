@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -38,18 +39,23 @@ namespace API.Controllers
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
-            if (!result.Succeeded) return BadRequest(result.Errors);
-
+            if (!result.Succeeded)
+            {
+                Console.WriteLine("A1");
+                return BadRequest(result.Errors);
+            }
             var roleResult = await _userManager.AddToRoleAsync(user, "Member");
 
-            if (!roleResult.Succeeded) return BadRequest(result.Errors);
+            if (!roleResult.Succeeded)
+            {
+                Console.WriteLine("A2");
+                return BadRequest(result.Errors);
+            }
 
             return new UserDto
             {
                 Username = user.UserName,
                 Token = await _tokenService.CreateToken(user),
-                KnownAs = user.KnownAs,
-                Gender = user.Gender
             };
         }
 
@@ -70,8 +76,6 @@ namespace API.Controllers
             {
                 Username = user.UserName,
                 Token = await _tokenService.CreateToken(user),
-                KnownAs = user.KnownAs,
-                Gender = user.Gender
             };
         }
 

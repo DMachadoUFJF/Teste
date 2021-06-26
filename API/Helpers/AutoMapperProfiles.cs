@@ -11,9 +11,7 @@ namespace API.Helpers
     {
         public AutoMapperProfiles()
         {
-            CreateMap<AppUser, MemberDto>()
-                .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.DateOfBirth.CalculateAge()));
-            CreateMap<MemberUpdateDto, AppUser>();
+            CreateMap<AppUser, MemberDto>();
             CreateMap<RegisterDto, AppUser>();
         }
     }
