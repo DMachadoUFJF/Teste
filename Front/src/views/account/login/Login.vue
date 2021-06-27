@@ -59,6 +59,10 @@ export default class Login extends Vue {
     }
   }
 
+  public createAccount(){
+    this.$router.push("/account/cadastro");
+  }
+
   public setAuthToken(token: string) {
     this.modAuth.setAccessToken(token);
   }

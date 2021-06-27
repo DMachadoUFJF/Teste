@@ -23,7 +23,7 @@ import * as registerValidations from "./form-validations";
 export default class ChangePassword extends Vue {
   
   @Prop()
-  public open = false;
+  public open = true;
   public disabledLogin = false;
   public showActualPassword = false;
   public showNewPassword = false;
