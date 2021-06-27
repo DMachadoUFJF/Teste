@@ -5,9 +5,17 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import Notify from "@/core/notify";
 import { Watch } from "vue-property-decorator";
+import { getModule } from "vuex-module-decorators";
+import Auth from "../../store/modules/Auth/Auth.module";
+import store from "../../store";
+import UserMenu from "../UserMenu/UserMenu.vue";
 
 @Component({
   name: "menu-app",
+  components: {
+    "user-menu": UserMenu
+  }
+
 })
 export default class Menu extends Vue {
   public mini = true;
@@ -15,6 +23,16 @@ export default class Menu extends Vue {
   public items: any[] = [];
   public notify = Notify();
   logoUrl = require("../../assets/logo.png");
+
+  public authStore = getModule(Auth, this.$store);
+
+  get userName() {
+    return this.authStore.userName;
+  }
+
+  public logout() {
+    this.authStore.logout();
+  }
 
   @Watch("mini")
   public closeAllMenu() {
@@ -34,32 +52,74 @@ export default class Menu extends Vue {
       },
       {
         icon: "mdi-checkbox-marked-circle-outline",
-        text: "Strings",
-        action: () => this.redirect("/main"),
+        "icon-alt": "mdi-chevron-down",
+        text: "Realizar Quiz",
+        active: false,
         allowed: true,
+        children: [
+          {
+            icon: "mdi-checkbox-marked-circle-outline",
+            text: "Strings",
+            action: () => this.redirect("/main"),
+            allowed: true,
+          },
+          {
+            icon: "mdi-checkbox-marked-circle-outline",
+            text: "Estrutura de repeticao",
+            action: () => this.redirect("/main"),
+            allowed: true,
+          },
+          {
+            icon: "mdi-checkbox-marked-circle-outline",
+            text: "Estrutura condicional",
+            action: () => this.redirect("/main"),
+            allowed: true,
+          },
+          {
+            icon: "mdi-checkbox-marked-circle-outline",
+            text: "Vetores",
+            action: () => this.redirect("/main"),
+            allowed: true,
+          }, 
+        ]
       },
       {
-        icon: "mdi-checkbox-marked-circle-outline",
-        text: "Estrutura de repeticao",
-        action: () => this.redirect("/main"),
+        icon: "mdi-trophy",
+        "icon-alt": "mdi-chevron-down",
+        text: "Ranking",
+        active: false,
         allowed: true,
+        children: [
+          {
+            icon: "mdi-trophy",
+            text: "Strings",
+            action: () => this.redirect("/main"),
+            allowed: true,
+          },
+          {
+            icon: "mdi-trophy",
+            text: "Estrutura de repeticao",
+            action: () => this.redirect("/main"),
+            allowed: true,
+          },
+          {
+            icon: "mdi-trophy",
+            text: "Estrutura condicional",
+            action: () => this.redirect("/main"),
+            allowed: true,
+          },
+          {
+            icon: "mdi-trophy",
+            text: "Vetores",
+            action: () => this.redirect("/main"),
+            allowed: true,
+          }, 
+        ]
       },
       {
-        icon: "mdi-checkbox-marked-circle-outline",
-        text: "Estrutura condicional",
-        action: () => this.redirect("/main"),
-        allowed: true,
-      },
-      {
-        icon: "mdi-checkbox-marked-circle-outline",
-        text: "Vetores",
-        action: () => this.redirect("/main"),
-        allowed: true,
-      },
-      {
-        icon: "mdi-checkbox-marked-circle-outline",
-        text: "Matrizes",
-        action: () => this.redirect("/main"),
+        icon: "mdi-exit-to-app",
+        text: "Logout",
+        action: () => this.logout(),
         allowed: true,
       },
     ];
