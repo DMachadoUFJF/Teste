@@ -41,14 +41,12 @@ namespace API.Controllers
 
             if (!result.Succeeded)
             {
-                Console.WriteLine("A1");
                 return BadRequest(result.Errors);
             }
             var roleResult = await _userManager.AddToRoleAsync(user, "Member");
 
             if (!roleResult.Succeeded)
             {
-                Console.WriteLine("A2");
                 return BadRequest(result.Errors);
             }
 
